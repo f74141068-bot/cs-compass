@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="CS Compass 資工學習知識庫"><title>堆疊 Stack | CS Compass</title><link rel="stylesheet" href="../assets/style.css"><script defer src="../assets/app.js"></script></head>
+<body><a class="skip" href="#main">跳至主要內容</a><header><div class="shell nav"><a class="brand" href="../index.html"><span class="logo" aria-hidden="true">✳</span> CS Compass<span class="brand-sub"> / STUDY LAB</span></a><nav aria-label="主要導覽"><a href="../index.html#library">學習筆記</a><a href="../workflow.html">AI 開發規則</a></nav></div></header><main id="main" class="shell"><div class="breadcrumb"><a href="../index.html#library">學習筆記</a> / 資料結構</div><article class="article"><div class="article-head"><span class="tag structure">資料結構</span> <span class="muted">入門</span><h1>堆疊 Stack</h1><p class="lead">認識後進先出 LIFO，以及 push、pop、top 的基本操作。</p></div><div class="article-grid"><aside class="toc"><p class="eyebrow">ON THIS PAGE</p><a href="#concept">01 核心觀念</a><a href="#example">02 C++ 實作</a><a href="#complexity">03 複雜度</a><a href="#mistake">04 常見錯誤</a><a href="#quiz">05 自我測驗</a></aside><div class="article-body"><section id="concept"><h2>01 / 核心觀念</h2><ul><li>Stack 是 Last In, First Out (LIFO) 的資料結構。</li><li>push 加入頂端；pop 移除頂端；top 查看頂端。</li><li>C++ std::stack 的 pop 不回傳元素，須先使用 top 讀取。</li></ul></section><section id="example"><h2>02 / C++ 實作</h2><div class="code-label">C++17 · 可獨立編譯範例</div><pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+int main() {
+    std::stack&lt;int&gt; s;
+    s.push(10);
+    s.push(20);
+    if (!s.empty()) {
+        std::cout &lt;&lt; s.top() &lt;&lt; &#x27;\n&#x27;;
+        s.pop();
+    }
+    std::cout &lt;&lt; s.top() &lt;&lt; &#x27;\n&#x27;;
+}</code></pre><p>20 最後進入，所以先輸出 20；移除後，頂端是 10。</p></section><section id="complexity"><h2>03 / 複雜度</h2><p>以預設 deque 作為底層容器時，push、pop、top 為 O(1) 時間，n 個元素使用 O(n) 空間。</p></section><section id="mistake"><h2>04 / 常見錯誤</h2><p class="warning">空堆疊不可呼叫 top 或 pop；操作前先確認 empty()。</p></section><section id="quiz"><h2>05 / 自我測驗</h2><p>依序 push 1、2、3，再 pop 一次，此時 top 是多少？</p><details><summary>展開參考答案</summary><p>2。3 是最後加入的元素，因此最先被移除。</p></details></section><section><h2>延伸學習</h2><a class="related" href="linked-list.html">單向鏈結串列 Linked List →</a><a class="related" href="queue.html">佇列 Queue →</a></section></div></div></article></main><footer><div class="shell foot"><span>CS Compass · 資工學習知識庫</span><span>以知識為起點，持續累積。</span></div></footer></body></html>
