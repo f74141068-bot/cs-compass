@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="CS Compass 資工學習知識庫"><title>單向鏈結串列 Linked List | CS Compass</title><link rel="stylesheet" href="../assets/style.css"><script defer src="../assets/app.js"></script></head>
+<body><a class="skip" href="#main">跳至主要內容</a><header><div class="shell nav"><a class="brand" href="../index.html"><span class="logo" aria-hidden="true">✳</span> CS Compass<span class="brand-sub"> / STUDY LAB</span></a><nav aria-label="主要導覽"><a href="../index.html#library">學習筆記</a><a href="../workflow.html">AI 開發規則</a></nav></div></header><main id="main" class="shell"><div class="breadcrumb"><a href="../index.html#library">學習筆記</a> / 資料結構</div><article class="article"><div class="article-head"><span class="tag structure">資料結構</span> <span class="muted">入門</span><h1>單向鏈結串列 Linked List</h1><p class="lead">用 Node* 與 next 串起節點，熟悉走訪與記憶體釋放。</p></div><div class="article-grid"><aside class="toc"><p class="eyebrow">ON THIS PAGE</p><a href="#concept">01 核心觀念</a><a href="#example">02 C++ 實作</a><a href="#complexity">03 複雜度</a><a href="#mistake">04 常見錯誤</a><a href="#quiz">05 自我測驗</a></aside><div class="article-body"><section id="concept"><h2>01 / 核心觀念</h2><ul><li>每個 Node 儲存資料 data 與下一個節點的位址 next。</li><li>head 指向第一個節點；最後一個節點的 next 為 nullptr。</li><li>走訪時可使用額外指標 cur，以免改變代表串列起點的 head。</li></ul></section><section id="example"><h2>02 / C++ 實作</h2><div class="code-label">C++17 · 可獨立編譯範例</div><pre><code>#include &lt;iostream&gt;
+struct Node { int data; Node* next; };
+int main() {
+    Node* head = new Node{10, new Node{20, nullptr}};
+    for (Node* cur = head; cur != nullptr; cur = cur-&gt;next)
+        std::cout &lt;&lt; cur-&gt;data &lt;&lt; &#x27; &#x27;;
+    while (head != nullptr) {
+        Node* old = head;
+        head = head-&gt;next;
+        delete old;
+    }
+}</code></pre><p>依序輸出 10 20，再逐一釋放節點。先取得下一個節點，才能安全刪除目前的節點。</p></section><section id="complexity"><h2>03 / 複雜度</h2><p>走訪 n 個節點需要 O(n) 時間；額外走訪空間 O(1)，串列本身占 O(n) 空間。</p></section><section id="mistake"><h2>04 / 常見錯誤</h2><p class="warning">先 delete 再讀取該節點的 next 會造成未定義行為。</p></section><section id="quiz"><h2>05 / 自我測驗</h2><p>若 head 指向 10，10 的 next 指向 20，走訪何時停止？</p><details><summary>展開參考答案</summary><p>當 cur 變成 nullptr 時停止；10 和 20 都會被讀取。</p></details></section><section><h2>延伸學習</h2><a class="related" href="cpp-pointer.html">指標 Pointer →</a><a class="related" href="stack.html">堆疊 Stack →</a></section></div></div></article></main><footer><div class="shell foot"><span>CS Compass · 資工學習知識庫</span><span>以知識為起點，持續累積。</span></div></footer></body></html>

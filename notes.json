@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cpp-pointer",
+    "title": "指標 Pointer",
+    "category": "cpp",
+    "level": "入門",
+    "summary": "理解記憶體位址、解參考與 nullptr，為鏈結串列打好基礎。",
+    "concepts": [
+      "指標儲存物件的位址；&x 取得 x 的位址。",
+      "*p 取得 p 指向的物件，可以透過它修改該物件。",
+      "nullptr 表示未指向有效物件；不能對它解參考。"
+    ],
+    "code": "#include <iostream>\nint main() {\n    int x = 10;\n    int* p = &x;\n    *p = 20;\n    std::cout << x << '\\n';\n}",
+    "explanation": "p 指向 x，因此 *p = 20 直接改變 x；輸出 20。",
+    "complexity": "此範例的操作皆為 O(1) 時間，額外空間 O(1)。",
+    "mistake": "不要對 nullptr 或生命週期已結束的物件位址解參考，也不要使用未初始化的指標。",
+    "question": "若 int x = 3; int* p = &x; *p = 8;，x 的值是多少？",
+    "answer": "8，因為 *p 操作的是 x 本身。",
+    "related": [
+      "linked-list"
+    ]
+  },
+  {
+    "id": "linked-list",
+    "title": "單向鏈結串列 Linked List",
+    "category": "structure",
+    "level": "入門",
+    "summary": "用 Node* 與 next 串起節點，熟悉走訪與記憶體釋放。",
+    "concepts": [
+      "每個 Node 儲存資料 data 與下一個節點的位址 next。",
+      "head 指向第一個節點；最後一個節點的 next 為 nullptr。",
+      "走訪時可使用額外指標 cur，以免改變代表串列起點的 head。"
+    ],
+    "code": "#include <iostream>\nstruct Node { int data; Node* next; };\nint main() {\n    Node* head = new Node{10, new Node{20, nullptr}};\n    for (Node* cur = head; cur != nullptr; cur = cur->next)\n        std::cout << cur->data << ' ';\n    while (head != nullptr) {\n        Node* old = head;\n        head = head->next;\n        delete old;\n    }\n}",
+    "explanation": "依序輸出 10 20，再逐一釋放節點。先取得下一個節點，才能安全刪除目前的節點。",
+    "complexity": "走訪 n 個節點需要 O(n) 時間；額外走訪空間 O(1)，串列本身占 O(n) 空間。",
+    "mistake": "先 delete 再讀取該節點的 next 會造成未定義行為。",
+    "question": "若 head 指向 10，10 的 next 指向 20，走訪何時停止？",
+    "answer": "當 cur 變成 nullptr 時停止；10 和 20 都會被讀取。",
+    "related": [
+      "cpp-pointer",
+      "stack"
+    ]
+  },
+  {
+    "id": "stack",
+    "title": "堆疊 Stack",
+    "category": "structure",
+    "level": "入門",
+    "summary": "認識後進先出 LIFO，以及 push、pop、top 的基本操作。",
+    "concepts": [
+      "Stack 是 Last In, First Out (LIFO) 的資料結構。",
+      "push 加入頂端；pop 移除頂端；top 查看頂端。",
+      "C++ std::stack 的 pop 不回傳元素，須先使用 top 讀取。"
+    ],
+    "code": "#include <iostream>\n#include <stack>\nint main() {\n    std::stack<int> s;\n    s.push(10);\n    s.push(20);\n    if (!s.empty()) {\n        std::cout << s.top() << '\\n';\n        s.pop();\n    }\n    std::cout << s.top() << '\\n';\n}",
+    "explanation": "20 最後進入，所以先輸出 20；移除後，頂端是 10。",
+    "complexity": "以預設 deque 作為底層容器時，push、pop、top 為 O(1) 時間，n 個元素使用 O(n) 空間。",
+    "mistake": "空堆疊不可呼叫 top 或 pop；操作前先確認 empty()。",
+    "question": "依序 push 1、2、3，再 pop 一次，此時 top 是多少？",
+    "answer": "2。3 是最後加入的元素，因此最先被移除。",
+    "related": [
+      "linked-list",
+      "queue"
+    ]
+  },
+  {
+    "id": "queue",
+    "title": "佇列 Queue",
+    "category": "structure",
+    "level": "入門",
+    "summary": "理解先進先出 FIFO，辨認與堆疊的操作差異。",
+    "concepts": [
+      "Queue 是 First In, First Out (FIFO) 的資料結構。",
+      "push 將元素加入尾端，pop 移除前端元素，front 查看前端。",
+      "排隊與廣度優先搜尋 (BFS) 都可使用佇列的先進先出特性。"
+    ],
+    "code": "#include <iostream>\n#include <queue>\nint main() {\n    std::queue<int> q;\n    q.push(10);\n    q.push(20);\n    while (!q.empty()) {\n        std::cout << q.front() << ' ';\n        q.pop();\n    }\n}",
+    "explanation": "輸出 10 20，因為最早加入的元素最早被移除。",
+    "complexity": "預設 deque 底層的 push、pop、front 為 O(1) 時間，n 個元素使用 O(n) 空間。",
+    "mistake": "std::queue 使用 front() 而不是 top()；在空佇列上不可呼叫 front 或 pop。",
+    "question": "依序 push 5、7、9；pop 一次後，front 是多少？",
+    "answer": "7，因為 5 已先被移除。",
+    "related": [
+      "stack",
+      "linked-list"
+    ]
+  },
+  {
+    "id": "binary-search",
+    "title": "二元搜尋 Binary Search",
+    "category": "algorithm",
+    "level": "進階",
+    "summary": "在已排序陣列中反覆縮小搜尋範圍，以對數時間找到目標。",
+    "concepts": [
+      "先確認陣列由小到大排序。",
+      "維護半開區間 [left, right)，每次檢查中點。",
+      "若中點值比目標小，就令 left = mid + 1；若較大，就令 right = mid。"
+    ],
+    "code": "#include <iostream>\n#include <vector>\nint binarySearch(const std::vector<int>& a, int target) {\n    int left = 0, right = static_cast<int>(a.size());\n    while (left < right) {\n        int mid = left + (right - left) / 2;\n        if (a[mid] == target) return mid;\n        if (a[mid] < target) left = mid + 1;\n        else right = mid;\n    }\n    return -1;\n}\nint main() {\n    std::vector<int> a{2, 4, 6, 8, 10};\n    std::cout << binarySearch(a, 8) << '\\n';\n}",
+    "explanation": "輸出 3，即 8 的索引。找不到時回傳 -1；若有重複值，只保證回傳其中一個符合的索引。",
+    "complexity": "已排序的 n 個元素，最壞 O(log n) 時間；迭代版本額外空間 O(1)。",
+    "mistake": "不要直接套用在未排序資料；半開區間的 right 初值是 size()，不可把閉區間的更新方式混用。",
+    "question": "在 [2, 4, 6, 8, 10] 尋找 7，最後回傳什麼？",
+    "answer": "-1，因為搜尋範圍縮小至空區間後仍未找到 7。",
+    "related": [
+      "cpp-pointer"
+    ]
+  }
+]

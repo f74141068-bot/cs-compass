@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="CS Compass 資工學習知識庫"><title>二元搜尋 Binary Search | CS Compass</title><link rel="stylesheet" href="../assets/style.css"><script defer src="../assets/app.js"></script></head>
+<body><a class="skip" href="#main">跳至主要內容</a><header><div class="shell nav"><a class="brand" href="../index.html"><span class="logo" aria-hidden="true">✳</span> CS Compass<span class="brand-sub"> / STUDY LAB</span></a><nav aria-label="主要導覽"><a href="../index.html#library">學習筆記</a><a href="../workflow.html">AI 開發規則</a></nav></div></header><main id="main" class="shell"><div class="breadcrumb"><a href="../index.html#library">學習筆記</a> / 演算法</div><article class="article"><div class="article-head"><span class="tag algorithm">演算法</span> <span class="muted">進階</span><h1>二元搜尋 Binary Search</h1><p class="lead">在已排序陣列中反覆縮小搜尋範圍，以對數時間找到目標。</p></div><div class="article-grid"><aside class="toc"><p class="eyebrow">ON THIS PAGE</p><a href="#concept">01 核心觀念</a><a href="#example">02 C++ 實作</a><a href="#complexity">03 複雜度</a><a href="#mistake">04 常見錯誤</a><a href="#quiz">05 自我測驗</a></aside><div class="article-body"><section id="concept"><h2>01 / 核心觀念</h2><ul><li>先確認陣列由小到大排序。</li><li>維護半開區間 [left, right)，每次檢查中點。</li><li>若中點值比目標小，就令 left = mid + 1；若較大，就令 right = mid。</li></ul></section><section id="example"><h2>02 / C++ 實作</h2><div class="code-label">C++17 · 可獨立編譯範例</div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+int binarySearch(const std::vector&lt;int&gt;&amp; a, int target) {
+    int left = 0, right = static_cast&lt;int&gt;(a.size());
+    while (left &lt; right) {
+        int mid = left + (right - left) / 2;
+        if (a[mid] == target) return mid;
+        if (a[mid] &lt; target) left = mid + 1;
+        else right = mid;
+    }
+    return -1;
+}
+int main() {
+    std::vector&lt;int&gt; a{2, 4, 6, 8, 10};
+    std::cout &lt;&lt; binarySearch(a, 8) &lt;&lt; &#x27;\n&#x27;;
+}</code></pre><p>輸出 3，即 8 的索引。找不到時回傳 -1；若有重複值，只保證回傳其中一個符合的索引。</p></section><section id="complexity"><h2>03 / 複雜度</h2><p>已排序的 n 個元素，最壞 O(log n) 時間；迭代版本額外空間 O(1)。</p></section><section id="mistake"><h2>04 / 常見錯誤</h2><p class="warning">不要直接套用在未排序資料；半開區間的 right 初值是 size()，不可把閉區間的更新方式混用。</p></section><section id="quiz"><h2>05 / 自我測驗</h2><p>在 [2, 4, 6, 8, 10] 尋找 7，最後回傳什麼？</p><details><summary>展開參考答案</summary><p>-1，因為搜尋範圍縮小至空區間後仍未找到 7。</p></details></section><section><h2>延伸學習</h2><a class="related" href="cpp-pointer.html">指標 Pointer →</a></section></div></div></article></main><footer><div class="shell foot"><span>CS Compass · 資工學習知識庫</span><span>以知識為起點，持續累積。</span></div></footer></body></html>
